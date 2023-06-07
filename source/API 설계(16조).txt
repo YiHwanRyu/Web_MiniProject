@@ -1,0 +1,36 @@
+변수 명명, API 설계, Collection명: profile
+요청시에는 변수명을 _give로 바꿔주세요!
+ex) name_give
+	  Method	URl		Description
+1. CREATE  POST	      /profile		프로필 생성
+		       num -> 요청을 받으면 api에서 DB의 길이를 판단 후 +1하여 번호를 부여하도록함.
+		      {'no' : num}
+		      {'name' : name_receive}
+		      {'age' : age_receive}
+		      {'hobby' : hobby_receive}
+		      {'goal' : goal_receive}
+		      {'mbti' : mbti_receive}
+		      {'food' : food_receive}
+ 			
+2. READ	   GET	     /profile/list	프로필 조회 
+		      profile[{'no' : num} 
+		      {'name' : name_receive}
+		      {'age' : age_receive}
+		      {'hobby' : hobby_receive}
+		      {'goal' : goal_receive}
+		      {'mbti' : mbti_receive}
+		      {'food' : food_receive}]
+		      DB: select_one    
+ 		     
+3. UPDATE  POST      /profile/update	프로필 수정
+		      {'name' : name_receive}
+		      {'age' : age_receive}
+		      {'hobby' : hobby_receive}
+		      {'goal' : goal_receive}
+		      {'mbti' : mbti_receive}
+		      {'food' : food_receive}
+		      DB: update_one	    
+
+4. DELETE  POST      /profile/delete    프로필 삭제(삭제버튼으로 요청)
+		      {'name' : name_receive}
+		      DB: delete_one
