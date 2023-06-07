@@ -8,24 +8,46 @@ app = Flask(__name__)
 # 추후에 DB통합 할게요!
 # 아래 빈 공백
 from pymongo import MongoClient
-client = MongoClient('mongodb+srv://   /?retryWrites=true&w=majority')
+client = MongoClient('mongodb+srv://sparta:test@cluster0.4np5gdf.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
 
+comment_url = "/commentData"
 
 # 팬명록 작성코드의 일부를 남겨두었습니다.
 @app.route('/')
-def home(): 
-   return render_template('index.html') # 시작시 기본 코드
+def home():
+   return render_template('index.html')
 
-@app.route("/home", methods=["POST"])
-def profile_list():
+@app.route(comment_url, methods=["POST"])
+def guestbook_post():
+    name_receive = request.form['name_give']
+    password_receive = request.form['password_give']
+    comment_receive = request.form['comment_give']
+    comment_list = list(db.comments.find({}, {'_id': False}))
+    count = len(comment_list) + 1
+    doc = {
+        'name':name_receive,
+        'password':password_receive,
+        'comment':comment_receive,
+        'number':count,                  #data마다 고유 값 부여
+        'goods':0
+    }
+    db.comments.insert_one(doc)
+
     return jsonify({'msg': '저장 완료!'})
 
-@app.route("/guestbook", methods=["GET"])
-def profile_get():
-    all_fans = list(db.guestbook.find({},{'_id':False}))
-    return jsonify({'result': all_fans})
 
+@app.route(comment_url, methods=["PUT"])
+def goods():
+    comment_index = request.form['comment_index']
+    db.comments.update_one({'num': int(comment_index)},{'$set':{'goods':goods+1}})
+    return jsonify({'msg': '좋아요가 반영되었습니다!'})
+
+@app.route(comment_url, methods=["GET"])
+def comment_all_get():
+    all_comments = list(db.comments.find({},{'_id':False}))
+    return jsonify({'result': all_comments})
 
 if __name__ == '__main__':
    app.run('0.0.0.0', port=5000, debug=True)
+

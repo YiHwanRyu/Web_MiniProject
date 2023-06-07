@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+
+    <title>자기소개 게시판</title>
+
+      <meta property="og:title" content="자기소개 게시판" />
+      <meta property="og:description" content="자기소개" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        font-family: "Noto Serif KR", serif;
+      }
+
+      .mypost {
+        width: 95%;
+        max-width: 500px;
+        margin: 20px auto 20px auto;
+
+        box-shadow: 0px 0px 3px 0px black;
+        padding: 20px;
+      }
+      #name {
+        height: 30%;
+        width: 40%;
+      }
+      #password {
+        height: 30%;
+        width: 40%;
+      }
+
+      .mypost > button {
+        margin-top: 15px;
+      }
+
+      .comments {
+        width: 95%;
+        max-width: 500px;
+        margin: auto;
+      }
+
+      .comments > .comment {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+    </style>
+    <script>
+        comment_url = '/commentData'
+        show_comment()
+
+        function save_comment() {
+            let formData = new FormData();
+            let name = $('#name').val()
+            let password = $('#password').val()
+            let comment = $('#comment').val()
+            formData.append("name_give", name);
+            formData.append("password_give", comment);
+            formData.append("comment_give", comment);
+            
+
+            fetch(comment_url, {method: "POST",body: formData,}).then((res) => res.json()).then((data) => {
+                alert(data["msg"])
+                window.location.reload()
+            });
+        }
+        function show_comment() {
+            fetch(comment_url).then((res) => res.json()).then((data) => {
+                //   $('#comment-list').empty()
+            let rows = data['result']
+            rows.forEach((a) => {
+                let name = a['name']
+                let comment = a['comment']
+                let commnet_number = a['number']
+                console.log(name)
+                temp_html = `<div class="card">
+                    <div class="card-body">
+                        <blockquote class="blockquote mb-0">
+                            <footer class="blockquote-footer">${name}</footer>
+                            <p>${comment}</p>
+                            <button id="update_button" onclick="update_button(${commnet_number})" type="button" class="btn btn-outline-primary">수정</button>
+                            <button id="delete_button" onclick="delete_button(${commnet_number})" type="button" class="btn btn-outline-primary">삭제</button>
+                        </blockquote>
+                    </div>
+                </div>`
+                $('#comment-list').append(temp_html)
+            })
+            })
+        }
+
+    </script>
+  </head>
+  <body>
+    <div class="mypic">
+      <h1>자기소개 댓글달기</h1>
+    </div>
+    <div class="mypost">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="name" placeholder="url" />
+            <label for="name">이름</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="password" placeholder="url" />
+            <label for="password">비밀번호</label>
+          </div>
+      <div class="form-floating">
+        <textarea
+          class="form-control"
+          placeholder="Leave a comment here"
+          id="comment"
+          style="height: 100px"
+        ></textarea>
+        <label for="floatingTextarea2" id ="comment_text">코멘트</label>
+      </div>
+      <button onclick="save_comment()" type="button" class="btn btn-dark">
+        댓글 남기기
+      </button>
+    </div>
+    <div class="comments" id="comment-list">
+      <div class="card">
+        <div class="card-body">
+          <blockquote class="blockquote mb-0">
+            <footer class="blockquote-footer">김지훈</footer>
+            <!-- <button id="button${index}" onclick="good_button()" type="button" class="btn btn-outline-primary">"좋아요!"</button> -->
+            <p>잘 부탁드립니다</p>
+            <button id="update_button" onclick="update_button()" type="button" class="btn btn-outline-primary">수정</button>
+            <button id="delete_button" onclick="delete_button()" type="button" class="btn btn-outline-primary">삭제</button>
+          </blockquote>
+        </div>
+      </div>
+  </body>
+</html>
