@@ -80,7 +80,8 @@
                                                 <p class="card-text">MBTI: ${mbti}</p>
                                                 <p class="card-text">목표: ${goal}</p>
                                                 <p class="card-text">좋아하는 음식: ${food}</p>
-                                                <button type="button" class="btn btn-outline-dark">삭제</button>
+                                                <button type="button" class="btn btn-outline-dark">수정</button>
+                                                <button onclick="delete_profile(${number})" type="button" class="btn btn-outline-dark">삭제</button>
                                             </div>
                                         </div>
                                     </div>`}
@@ -96,8 +97,14 @@
 
         }
 
-        function delete_profile() {
+        function delete_profile(number) {
+            let formData = new FormData();
+            formData.append("profile_delete", number);
 
+            fetch('/profile/delete', { method: "DELETE", body: formData, }).then((response) => response.json()).then((data) => {
+                alert(data["msg"]);
+                window.location.reload();
+            });
         }
 
 
