@@ -6,8 +6,8 @@ client = MongoClient('mongodb+srv://test:sparta@cluster0.s6qwrpu.mongodb.net/?re
 db = client.dbsparta
 
 @app.route('/')
-def index(): 
-   return render_template('index.html') 
+def index():
+   return render_template('index.html')
 
 @app.route('/profile', methods=["POST"]) #create 프로필 생성
 def profile_create():
@@ -45,9 +45,18 @@ def profile_read():
 def profile_update():
     return
 
-@app.route('/profile/delete', methods=["POST"]) #프로필 삭제
+@app.route('/profile/delete', methods=["DELETE"]) #프로필 삭제
 def profile_delete():
-    return
+    profile_delete = request.form['profile_delete']
+    all_profiles = list(db.web.find({}))
+    for number in all_profiles:
+        check = number['number']
+        if int(check) == int(profile_delete):
+            db.web.delete_one({'number':int(profile_delete)})
+        if int(check) > int(profile_delete):
+            db.web.update_one({'number':check},{'$set':{'number':int(check)-1}})
+
+    return jsonify({'msg': "삭제 완료!"})
 
 if __name__ == '__main__':
    app.run('0.0.0.0', port=5000, debug=True)
