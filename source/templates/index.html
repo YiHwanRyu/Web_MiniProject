@@ -35,10 +35,10 @@
         function save_profile() {
             let name = $("#name").val();
             let age = $("#age").val();
-            let hobby = $('#hobby').val();
-            let mbti = $('#mbti').val();
-            let goal = $('#goal').val();
-            let food = $('#food').val();
+            let hobby = $("#hobby").val();
+            let mbti = $("#mbti").val();
+            let goal = $("#goal").val();
+            let food = $("#food").val();
 
             let formData = new FormData();
 
@@ -49,7 +49,7 @@
             formData.append("goal_give", goal);
             formData.append("food_give", food);
 
-            fetch('/profile', { method: "POST", body: formData, }).then((res) => res.json()).then((data) => {
+            fetch('/profile', { method: "POST", body: formData}).then((res) => res.json()).then((data) => {
                 alert(data["msg"]);
                 window.location.reload();
             });
@@ -80,7 +80,7 @@
                                                 <p class="card-text">MBTI: ${mbti}</p>
                                                 <p class="card-text">목표: ${goal}</p>
                                                 <p class="card-text">좋아하는 음식: ${food}</p>
-                                                <button onclick="updatehtml(${number})" type="button" class="btn btn-outline-dark">수정</button>
+                                                <button onclick="window.location.href='/profile/updatehtml${number}'" type="button" class="btn btn-outline-dark">수정</button>
                                                 <button onclick="delete_profile(${number})" type="button" class="btn btn-outline-dark">삭제</button>
                                             </div>
                                         </div>
@@ -91,12 +91,6 @@
                     $("#profile-list").append(temp_html)
                 })
             })
-        }
-
-        function updatehtml(number) {
-            let formData = new FormData();
-            formData.append("profile_update", number);
-            fetch('/profile/updatehtml', { method: "POST", body: formData});
         }
 
         function delete_profile(number) {

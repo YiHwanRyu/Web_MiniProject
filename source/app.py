@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
 from pymongo import MongoClient
-client = MongoClient('mongodb+srv:')
+client = MongoClient('')
 db = client.dbsparta
 
 @app.route('/')
@@ -40,9 +40,8 @@ def profile_read():
     all_profiles = list(db.web.find({},{'_id':False}))
     return jsonify({'result':all_profiles})
 
-@app.route('/profile/updatehtml', methods=["POST"])
-def updatehtml():
-    profile_update = request.form['profile_update'] 
+@app.route('/profile/updatehtml<profile_update>')
+def updatehtml(profile_update):
     return render_template('update.html', number=profile_update)
 
 
@@ -56,7 +55,7 @@ def profile_update():
     goal_receive = request.form["goal_give"]
     food_receive = request.form["food_give"]
 
-    db.web.update_one({'number':number_receive},
+    db.web.update_one({'number':int(number_receive)},
     {'$set':
     {
         'name':name_receive,
@@ -69,6 +68,13 @@ def profile_update():
     })
     return jsonify({'msg': "수정 완료!"})
 
+@app.route('/getbefore')
+def profile_before():
+    number_receive = request.form["number_give"]
+    profile_before = db.web.find_one({'number':int(number_receive)})
+    print(profile_before)
+    return jsonify({'profile_before':profile_before})
+   
 @app.route('/profile/delete', methods=["DELETE"]) #프로필 삭제
 def profile_delete():
     profile_delete = request.form['profile_delete']
