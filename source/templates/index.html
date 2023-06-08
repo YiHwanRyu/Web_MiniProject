@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-    <!--아직 완성 상태가 아니어서 python으로 실행이 안될텐데 기존에 가지고 계시는 다른코드에서 실험 후에 작성하시면 될거 같아요-->
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -34,11 +33,63 @@
 
 
         function save_profile() {
+            let name = $("#name").val();
+            let age = $("#age").val();
+            let hobby = $('#hobby').val();
+            let mbti = $('#mbti').val();
+            let goal = $('#goal').val();
+            let food = $('#food').val();
 
+            let formData = new FormData();
+
+            formData.append("name_give", name);
+            formData.append("age_give", age);
+            formData.append("hobby_give", hobby);
+            formData.append("mbti_give", mbti);
+            formData.append("goal_give", goal);
+            formData.append("food_give", food);
+
+            fetch('/profile', { method: "POST", body: formData, }).then((res) => res.json()).then((data) => {
+                alert(data["msg"]);
+                window.location.reload();
+            });
         }
 
         function get_profile() {
+            fetch('/profile').then((res) => res.json()).then((data) => {
+                let rows = data['result']
+                $('#profile-list').empty()
+                rows.forEach((a) => {
+                    let name = a['name']
+                    let age = a['age']
+                    let hobby = a['hobby']
+                    let mbti = a['mbti']
+                    let goal = a['goal']
+                    let food = a['food']
+                    let number = a['number']
+                    let done = a['done']
 
+                    let temp_html = ``
+                    if (done == 0) {
+                        temp_html = `<div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">${number}. ${name}의 프로필</h5>
+                                                <p class="card-text">나이: ${age}</p>
+                                                <p class="card-text">취미: ${hobby}</p>
+                                                <p class="card-text">MBTI: ${mbti}</p>
+                                                <p class="card-text">목표: ${goal}</p>
+                                                <p class="card-text">좋아하는 음식: ${food}</p>
+                                                <button type="button" class="btn btn-outline-dark">삭제</button>
+                                            </div>
+                                        </div>
+                                    </div>`}
+                    else {
+                        temp_html = ``
+                    }
+                    $("#profile-list").append(temp_html)
+                })
+            })
         }
 
         function update_profile() {
@@ -68,19 +119,19 @@
                     <div class="card-body">
                         <h5 class="card-title">Card title</h5>
                         <div class="form">
-                            <input class="form-control form-control-sm" type="text" placeholder="이름"
+                            <input class="form-control form-control-sm" type="text" id="name" placeholder="이름"
                                 aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" placeholder="나이"
+                            <input class="form-control form-control-sm" type="text" id="age" placeholder="나이"
                                 aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" placeholder="취미"
+                            <input class="form-control form-control-sm" type="text" id="hobby" placeholder="취미"
                                 aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" placeholder="MBTI"
+                            <input class="form-control form-control-sm" type="text" id="mbti" placeholder="MBTI"
                                 aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" placeholder="목표"
+                            <input class="form-control form-control-sm" type="text" id="goal" placeholder="목표"
                                 aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" placeholder="좋아하는 음식"
+                            <input class="form-control form-control-sm" type="text" id="food" placeholder="좋아하는 음식"
                                 aria-label=".form-control-sm example">
-                            <button type="button" class="btn btn-outline-dark">만들기</button>
+                            <button onclick="save_profile()" type="button" class="btn btn-outline-dark">만들기</button>
                         </div>
                     </div>
                 </div>
@@ -89,10 +140,9 @@
     </div>
     <div class="contents">
         <div class="profiles">
-            <div class="row row-cols-1 row-cols-md-2 g-4">
+            <div class="row row-cols-1 row-cols-md-2 g-4" id ="profile-list">
                 <div class="col">
                     <div class="card">
-                        <!-- <img src="..." class="card-img-top" alt="..."> -->
                         <div class="card-body">
                             <h5 class="card-title">1. 철수의 프로필</h5>
                             <p class="card-text">나이: </p>
