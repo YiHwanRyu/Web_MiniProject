@@ -32,30 +32,32 @@
         let formData = new FormData();
         formData.append("number_give", number);
 
-        fetch('/getbefore').then((res) => res.json()).then((data) => {
-            let name = data['name']
-            let age = data['age']
-            let hobby = data['hobby']
-            let mbti = data['mbti']
-            let goal = data['goal']
-            let food = data['food'] 
+        $("#before_data").empty()
+        fetch('/getbefore', { method: "POST", body: formData }).then((res) => res.json()).then((data) => {
+            let a = data['result']
+            let name = a['name']
+            let age = a['age']
+            let hobby = a['hobby']
+            let mbti = a['mbti']
+            let goal = a['goal']
+            let food = a['food'] 
             let temp_html = ``
-                temp_html = `<input class="form-control form-control-sm" type="text" id="name" placeholder=${name}
-                                aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" id="age" placeholder=${age}
-                                aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" id="hobby" placeholder=${hobby}
-                                aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" id="mbti" placeholder=${mbti}
-                                aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" id="goal" placeholder=${goal}
-                                aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" id="food" placeholder=${food}
-                                aria-label=".form-control-sm example"><br>
+                temp_html = `<input class="form-control form-control-sm" type="text" id="name" placeholder="이름"
+                                value=${name}>
+                            <input class="form-control form-control-sm" type="text" id="age" placeholder="나이"
+                                value=${age}>
+                            <input class="form-control form-control-sm" type="text" id="hobby" placeholder="취미"
+                                value=${hobby}>
+                            <input class="form-control form-control-sm" type="text" id="mbti" placeholder="MBTI"
+                                value=${mbti}>
+                            <input class="form-control form-control-sm" type="text" id="goal" placeholder="목표"
+                                value=${goal}>
+                            <input class="form-control form-control-sm" type="text" id="food" placeholder="좋아하는 음식"
+                                value=${food}><br>
                             <button onclick="change_profile()" type="button" class="btn btn-outline-dark">수정</button>
                             <button onclick="go_back()" type="button" class="btn btn-outline-dark">취소</button>`
                    
-        $("#form").append(temp_html)
+        $("#before_data").append(temp_html)
         });
     }
 
@@ -80,7 +82,7 @@
 
         fetch('/profile/update', { method: "POST", body: formData }).then((res) => res.json()).then((data) => {
             alert(data["msg"]);
-            window.location.reload();
+            window.location.href='/'
         });
     }
 
@@ -100,7 +102,7 @@
                 <div class="col-md-8">
                     <div class="card-body">
                         <h5 class="card-title">수정화면</h5>
-                        <div class="form">
+                        <div class="form" id="before_data">
                             <input class="form-control form-control-sm" type="text" id="name" placeholder="이름"
                                 aria-label=".form-control-sm example">
                             <input class="form-control form-control-sm" type="text" id="age" placeholder="나이"
