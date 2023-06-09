@@ -67,10 +67,8 @@
                     let goal = a['goal']
                     let food = a['food']
                     let number = a['number']
-                    let done = a['done']
+                    let like = a['like']
 
-                    let temp_html = ``
-                    if (done == 0) {
                         temp_html = `<div class="col">
                                         <div class="card">
                                             <div class="card-body">
@@ -82,14 +80,22 @@
                                                 <p class="card-text">좋아하는 음식: ${food}</p>
                                                 <button onclick="window.location.href='/profile/updatehtml${number}'" type="button" class="btn btn-outline-dark">수정</button>
                                                 <button onclick="delete_profile(${number})" type="button" class="btn btn-outline-dark">삭제</button>
+                                                <button onclick="like_profile(${number})" type="button" class="btn btn-primary">좋아요 : ${like}</button>
                                             </div>
                                         </div>
-                                    </div>`}
-                    else {
-                        temp_html = ``
-                    }
+                                    </div>`
+                
                     $("#profile-list").append(temp_html)
                 })
+            })
+        }
+
+        function like_profile(number) {
+            fetch('/profile/'+number+'/likes', {method: "PUT"})
+            .then((res) => res.json())
+            .then((data) => {
+                alert(data["msg"]);
+                window.location.reload();
             })
         }
 

@@ -29,7 +29,7 @@ def profile_create():
         'mbti':mbti_receive,
         'goal':goal_receive,
         'food':food_receive,
-        'done':0,
+        'like':0
     }
 
     db.profile.insert_one(doc)
@@ -67,6 +67,19 @@ def profile_update():
     }
     })
     return jsonify({'msg': "수정 완료!"})
+
+@app.route('/profile/<int:number>/likes', methods=['PUT'])  #좋아요 버튼
+def profile_like(number):
+    profile = db.profile.find_one({'number': number})
+    like = profile['like']
+
+    db.profile.update_one(
+        {'number': number},
+        {'$set': {
+            'like':like+1
+        }}
+    )
+    return jsonify({'msg':'좋아요!'})
 
 @app.route('/getbefore', methods=["POST"]) #프로필 수정 초기화면 조회
 def profile_before():
