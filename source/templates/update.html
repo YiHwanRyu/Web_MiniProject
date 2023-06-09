@@ -20,6 +20,47 @@
         * {
             font-family: "Noto Serif KR", serif;
         }
+        .title {
+            text-align: center;
+            width: 300px;
+            margin: 50px auto 20px auto;
+        }
+
+        .box {
+            width: 500px;
+            height: 700px;
+            margin: 50px auto 200px auto;
+            padding: 20px 20px 0px 20px;
+            background-color: lightblue;
+            border-radius: 5%;
+        }
+
+        .round {
+            width: 200px;
+            height: 200px;
+            border-radius: 70%;
+            overflow: hidden;
+            margin: 20px auto auto auto;
+        }
+
+        .profile {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .form {
+            padding: 30px 50px 60px 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 17px;
+        }
+
+        .btnmd {
+            text-align: right;
+            margin-left: 10px;
+        }
+
     </style>
 </head>
 <script>
@@ -42,20 +83,30 @@
             let goal = a['goal']
             let food = a['food'] 
             let temp_html = ``
-                temp_html = `<input class="form-control form-control-sm" type="text" id="name" placeholder="이름"
-                                value=${name}>
-                            <input class="form-control form-control-sm" type="text" id="age" placeholder="나이"
-                                value=${age}>
-                            <input class="form-control form-control-sm" type="text" id="hobby" placeholder="취미"
-                                value=${hobby}>
-                            <input class="form-control form-control-sm" type="text" id="mbti" placeholder="MBTI"
-                                value=${mbti}>
-                            <input class="form-control form-control-sm" type="text" id="goal" placeholder="목표"
-                                value=${goal}>
-                            <input class="form-control form-control-sm" type="text" id="food" placeholder="좋아하는 음식"
-                                value=${food}><br>
-                            <button onclick="change_profile()" type="button" class="btn btn-outline-dark">수정</button>
-                            <button onclick="go_back()" type="button" class="btn btn-outline-dark">취소</button>`
+                temp_html = `<div class="form">
+                                <div class="form_name">
+                                    <input class="form-control" type="text" id="name" placeholder=${name} aria-label="default input example">
+                                </div>
+                                <div class="form_age">
+                                    <input class="form-control" type="text" id="age" placeholder=${age} aria-label="default input example">
+                                </div>
+                                <div class="form_hobby">
+                                    <input class="form-control" type="text" id="hobby" placeholder=${hobby} aria-label="default input example">
+                                </div>
+                                <div class="form_mbti">
+                                    <input class="form-control" type="text" id="mbti" placeholder=${mbti} aria-label="default input example">
+                                </div>
+                                <div class="form_goal">
+                                    <input class="form-control" type="text" id="goal" placeholder=${goal} aria-label="default input example">
+                                </div>
+                                <div class="form_food">
+                                    <input class="form-control" type="text" id="food" placeholder=${food}
+                                        aria-label="default input example">
+                                </div>
+                                <div class="btnmd">
+                                    <button onclick="change_profile()" type="button" class="btn btn-outline-light">수정</button>
+                                    <button onclick="go_back()" type="button" class="btn btn-outline-light">취소</button>
+                                </div>`
                    
         $("#before_data").append(temp_html)
         });
@@ -93,36 +144,40 @@
 </script>
 
 <body>
-    <div class="Input">
-        <div class="card mb-3" style="max-width: 540px;">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <!-- <img src="..." class="img-fluid rounded-start" alt="..."> -->
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">수정화면</h5>
-                        <div class="form" id="before_data">
-                            <input class="form-control form-control-sm" type="text" id="name" placeholder="이름"
-                                aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" id="age" placeholder="나이"
-                                aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" id="hobby" placeholder="취미"
-                                aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" id="mbti" placeholder="MBTI"
-                                aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" id="goal" placeholder="목표"
-                                aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" id="food" placeholder="좋아하는 음식"
-                                aria-label=".form-control-sm example"><br>
-                            <button onclick="change_profile()" type="button" class="btn btn-outline-dark">수정</button>
-                            <button onclick="go_back()" type="button" class="btn btn-outline-dark">취소</button>
-                        </div>
-                    </div>
-                </div>
+    <div class="title">
+        <h1>프로필 수정</h1>
+    </div>
+    <div class="box">
+        <div class="round">
+            <img class="profile" src="{{ url_for('static', filename='/first.png') }}">
+        </div>
+        <div class="form">
+            <div class="form_name">
+                <input class="form-control" type="text" id="name" placeholder="이름" aria-label="default input example">
+            </div>
+            <div class="form_age">
+                <input class="form-control" type="text" id="age" placeholder="나이" aria-label="default input example">
+            </div>
+            <div class="form_hobby">
+                <input class="form-control" type="text" id="hobby" placeholder="취미" aria-label="default input example">
+            </div>
+            <div class="form_mbti">
+                <input class="form-control" type="text" id="mbti" placeholder="MBTI" aria-label="default input example">
+            </div>
+            <div class="form_goal">
+                <input class="form-control" type="text" id="goal" placeholder="목표" aria-label="default input example">
+            </div>
+            <div class="form_food">
+                <input class="form-control" type="text" id="food" placeholder="좋아하는 음식"
+                    aria-label="default input example">
             </div>
         </div>
+        <div class="btnmd">
+            <button onclick="change_profile()" type="button" class="btn btn-outline-secondary">수정</button>
+            <button onclick="go_back()" type="button" class="btn btn-outline-secondary">취소</button>
+        </div>
     </div>
+
 </body>
 
 </html>
