@@ -37,17 +37,32 @@
         }
 
         .contents {
-            width: 90%
+            width: 100%
         }
+
         .card-container {
-        justify-content: center;
-        position: relative;
-        margin: 0 -12.5px; /* 전체 카드 컨테이너에 적용되는 마진 */
-        padding-left: 10%;
-        } 
+            justify-content: center;
+            position: relative;
+            margin: 30px -40px;
+            /* 전체 카드 컨테이너에 적용되는 마진 */
+            padding-left: 10%;
+        }
+
+        .card-container {
+            justify-content: center;
+            position: relative;
+            margin: 30px -40px;
+            /* 전체 카드 컨테이너에 적용되는 마진 */
+            padding-left: 10%;
+        }
 
         .card {
-        margin: 20px 12.5px; /* 각 카드에 적용되는 마진 */
+            margin: 40px 40px;
+            /* 각 카드에 적용되는 마진 */
+        }
+
+        .input-box {
+            margin: 40px;
         }
     </style>
     <script>
@@ -73,7 +88,7 @@
             formData.append("goal_give", goal);
             formData.append("food_give", food);
 
-            fetch('/profile', { method: "POST", body: formData}).then((res) => res.json()).then((data) => {
+            fetch('/profile', { method: "POST", body: formData }).then((res) => res.json()).then((data) => {
                 alert(data["msg"]);
                 window.location.reload();
             });
@@ -115,26 +130,26 @@
                                         </div>
                                     </div>
                                 </div>`
-                
+
                     $("#profile-list").append(temp_html)
                 })
             })
         }
 
         function like_profile(number) {
-            fetch('/profile/'+number+'/likes', {method: "PUT"})
-            .then((res) => res.json())
-            .then((data) => {
-                alert(data["msg"]);
-                window.location.reload();
-            })
+            fetch('/profile/' + number + '/likes', { method: "PUT" })
+                .then((res) => res.json())
+                .then((data) => {
+                    alert(data["msg"]);
+                    window.location.reload();
+                })
         }
 
         function delete_profile(number) {
             let formData = new FormData();
             formData.append("profile_delete", number);
 
-            fetch('/profile/delete', { method: "DELETE", body: formData}).then((response) => response.json()).then((data) => {
+            fetch('/profile/delete', { method: "DELETE", body: formData }).then((response) => response.json()).then((data) => {
                 alert(data["msg"]);
                 window.location.reload();
             });
@@ -162,39 +177,39 @@
             <button type="button" onclick="show_box()" class="btn btn-outline-dark mx-auto">프로필 입력하기</button>
         </div>
         <div class=create id="create" style="display: none">
-                    <div class="card border-dark mb-3 mx-auto" style="max-width: 400px;">
-                        <div class="card-header bg-transparent border-dark">프로필 입력</div>
-                            <div class="card-body text-dark">
-                                <div class="form">                                  
-                                    <input class="form-control form-control-sm" type="text" id="name" placeholder="이름"
-                                        aria-label=".form-control-sm example">
-                                    <input class="form-control form-control-sm" type="text" id="age" placeholder="나이"
-                                        aria-label=".form-control-sm example">
-                                    <input class="form-control form-control-sm" type="text" id="hobby" placeholder="취미"
-                                        aria-label=".form-control-sm example">
-                                    <input class="form-control form-control-sm" type="text" id="mbti" placeholder="MBTI"
-                                        aria-label=".form-control-sm example">
-                                    <input class="form-control form-control-sm" type="text" id="goal" placeholder="목표"
-                                        aria-label=".form-control-sm example">
-                                    <input class="form-control form-control-sm" type="text" id="food"
-                                        placeholder="좋아하는 음식" aria-label=".form-control-sm example">
-                                    <div class="d-grid gap-2 d-md-flex mt-2 justify-content-md-end">
-                                        <button onclick="save_profile()" type="button" class="btn btn-outline-secondary"
-                                            style="width: 80px;">만들기</button>
-                                        <button onclick="close_box()" type="button" class="btn btn-outline-secondary"
-                                            style="width: 80px;">취소</button>
-                                </div>
-                            </div>
+            <div class="card border-dark mb-3 mx-auto" style="max-width: 400px;">
+                <div class="card-header bg-transparent border-dark">프로필 입력</div>
+                <div class="card-body text-dark">
+                    <div class="form">
+                        <input class="form-control form-control-sm" type="text" id="name" placeholder="이름"
+                            aria-label=".form-control-sm example">
+                        <input class="form-control form-control-sm" type="text" id="age" placeholder="나이"
+                            aria-label=".form-control-sm example">
+                        <input class="form-control form-control-sm" type="text" id="hobby" placeholder="취미"
+                            aria-label=".form-control-sm example">
+                        <input class="form-control form-control-sm" type="text" id="mbti" placeholder="MBTI"
+                            aria-label=".form-control-sm example">
+                        <input class="form-control form-control-sm" type="text" id="goal" placeholder="목표"
+                            aria-label=".form-control-sm example">
+                        <input class="form-control form-control-sm" type="text" id="food" placeholder="좋아하는 음식"
+                            aria-label=".form-control-sm example">
+                        <div class="d-grid gap-2 d-md-flex mt-2 justify-content-md-end">
+                            <button onclick="save_profile()" type="button" class="btn btn-outline-secondary"
+                                style="width: 80px;">만들기</button>
+                            <button onclick="close_box()" type="button" class="btn btn-outline-secondary"
+                                style="width: 80px;">취소</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    </div>
+    </div>
     <div class="contents">
         <div class="profiles">
-            <div class="row row-cols-1 row-cols-md-2 g-4" id ="profile-list">
-              
+            <div class="row row-cols-1 row-cols-md-2 g-4" id="profile-list">
+
             </div>
         </div>
     </div>
