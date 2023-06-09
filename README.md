@@ -29,3 +29,6 @@
    - jinja2 3.1.2
    - MongoDB 6.0.6
    - Bootstrap 5.0.2
+
+#### 4. 유튜브 시연 링크
+   - https://www.youtube.com/watch?v=rkDtngxOr-w
