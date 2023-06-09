@@ -122,7 +122,15 @@
                 window.location.reload();
             });
         }
+        function show_box() {
+            $('#create').show();
+            $('#button-box').hide();
+        }
 
+        function close_box() {
+            $('#create').hide();
+            $('#button-box').show();
+        }
 
 
     </script>
@@ -133,28 +141,37 @@
         <h1>프로필 페이지</h1>
     </div>
     <div class="Input">
-        <div class="card mb-3" style="max-width: 540px;">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <!-- <img src="..." class="img-fluid rounded-start" alt="..."> -->
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">프로필 입력</h5>
-                        <div class="form">
-                            <input class="form-control form-control-sm" type="text" id="name" placeholder="이름"
-                                aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" id="age" placeholder="나이"
-                                aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" id="hobby" placeholder="취미"
-                                aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" id="mbti" placeholder="MBTI"
-                                aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" id="goal" placeholder="목표"
-                                aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" id="food" placeholder="좋아하는 음식"
-                                aria-label=".form-control-sm example">
-                            <button onclick="save_profile()" type="button" class="btn btn-outline-dark">만들기</button>
+        <div class="input-box mx-auto mb-3" id="button-box" style="width: 150px;">
+            <button type="button" onclick="show_box()" class="btn btn-outline-dark mx-auto">프로필 입력하기</button>
+        </div>
+        <div class=create id="create" style="display: none">
+            <div class="card mb-3 mx-auto" style="max-width: 400px;">
+                <div class="row g-0">
+                    <div class="col-md-8">
+                        <div class="mx-auto" style="width: 400px;">
+                            <div class="card-body">
+                                <h5 class="card-header">프로필 입력</h5>
+                                <div class="form">
+                                    <input class="form-control form-control-sm" type="text" id="name" placeholder="이름"
+                                        aria-label=".form-control-sm example">
+                                    <input class="form-control form-control-sm" type="text" id="age" placeholder="나이"
+                                        aria-label=".form-control-sm example">
+                                    <input class="form-control form-control-sm" type="text" id="hobby" placeholder="취미"
+                                        aria-label=".form-control-sm example">
+                                    <input class="form-control form-control-sm" type="text" id="mbti" placeholder="MBTI"
+                                        aria-label=".form-control-sm example">
+                                    <input class="form-control form-control-sm" type="text" id="goal" placeholder="목표"
+                                        aria-label=".form-control-sm example">
+                                    <input class="form-control form-control-sm" type="text" id="food"
+                                        placeholder="좋아하는 음식" aria-label=".form-control-sm example">
+                                    <div class="d-grid gap-2 d-md-flex mt-2 justify-content-md-end">
+                                        <button onclick="save_profile()" type="button" class="btn btn-outline-secondary"
+                                            style="width: 80px;">만들기</button>
+                                        <button onclick="close_box()" type="button" class="btn btn-outline-secondary"
+                                            style="width: 80px;">취소</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
