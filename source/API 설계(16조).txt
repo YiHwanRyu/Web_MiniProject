@@ -31,6 +31,6 @@ ex) name_give
 		      {'food' : food_receive}
 		      DB: update_one	    
 
-4. DELETE  POST      /profile/delete    프로필 삭제(삭제버튼으로 요청)
+4. DELETE  DELETE      /profile/delete    프로필 삭제(삭제버튼으로 요청)
 		      {'name' : name_receive}
 		      DB: delete_one

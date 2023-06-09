@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-    <!--아직 완성 상태가 아니어서 python으로 실행이 안될텐데 기존에 가지고 계시는 다른코드에서 실험 후에 작성하시면 될거 같아요-->
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -23,8 +22,47 @@
             font-family: "Noto Serif KR", serif;
         }
 
+        .title {
+            width: 100%;
+            height: 250px;
+
+            background-image: url('/static/second2.jpg');
+
+            color: white;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
         .contents {
-            width: 90%
+            width: 100%
+        }
+
+        .card-container {
+            justify-content: center;
+            position: relative;
+            margin: 30px -40px;
+            /* 전체 카드 컨테이너에 적용되는 마진 */
+            padding-left: 10%;
+        }
+
+        .card-container {
+            justify-content: center;
+            position: relative;
+            margin: 30px -40px;
+            /* 전체 카드 컨테이너에 적용되는 마진 */
+            padding-left: 10%;
+        }
+
+        .card {
+            margin: 40px 40px;
+            /* 각 카드에 적용되는 마진 */
+        }
+
+        .input-box {
+            margin: 40px;
         }
     </style>
     <script>
@@ -34,132 +72,144 @@
 
 
         function save_profile() {
+            let name = $("#name").val();
+            let age = $("#age").val();
+            let hobby = $("#hobby").val();
+            let mbti = $("#mbti").val();
+            let goal = $("#goal").val();
+            let food = $("#food").val();
 
+            let formData = new FormData();
+
+            formData.append("name_give", name);
+            formData.append("age_give", age);
+            formData.append("hobby_give", hobby);
+            formData.append("mbti_give", mbti);
+            formData.append("goal_give", goal);
+            formData.append("food_give", food);
+
+            fetch('/profile', { method: "POST", body: formData }).then((res) => res.json()).then((data) => {
+                alert(data["msg"]);
+                window.location.reload();
+            });
         }
 
         function get_profile() {
+            fetch('/profile').then((res) => res.json()).then((data) => {
+                let rows = data['result']
+                $('#profile-list').empty()
+                rows.forEach((a) => {
+                    let name = a['name']
+                    let age = a['age']
+                    let hobby = a['hobby']
+                    let mbti = a['mbti']
+                    let goal = a['goal']
+                    let food = a['food']
+                    let number = a['number']
+                    let like = a['like']
 
+                    let temp_html = `
+                            <div class="card-container">
+                                <div class="card border-dark mb-3">
+                                    <div class="card-header bg-transparent border-dark">No.${number}</div>
+                                        <div class="card-body text-dark">
+                                            <h5 class="card-title">${name}의 프로필</h5>
+                                                <p class="card-text">👉 나이: ${age}</p>
+                                                <p class="card-text">👉 취미: ${hobby}</p>
+                                                <p class="card-text">👉 MBTI: ${mbti}</p>
+                                                <p class="card-text">👉 목표: ${goal}</p>
+                                                <p class="card-text">👉 좋아하는 음식: ${food}</p>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <button onclick="window.location.href='/profile/updatehtml${number}'" type="button" class="btn btn-outline-dark">수정</button>
+                                                    <button onclick="delete_profile(${number})" type="button" class="btn btn-danger">삭제</button>
+                                                </div>
+                                                <button onclick="like_profile(${number})" type="button" class="btn btn-primary">좋아요 : ${like}</button>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`
+
+                    $("#profile-list").append(temp_html)
+                })
+            })
         }
 
-        function update_profile() {
-
+        function like_profile(number) {
+            fetch('/profile/' + number + '/likes', { method: "PUT" })
+                .then((res) => res.json())
+                .then((data) => {
+                    alert(data["msg"]);
+                    window.location.reload();
+                })
         }
 
-        function delete_profile() {
+        function delete_profile(number) {
+            let formData = new FormData();
+            formData.append("profile_delete", number);
 
+            fetch('/profile/delete', { method: "DELETE", body: formData }).then((response) => response.json()).then((data) => {
+                alert(data["msg"]);
+                window.location.reload();
+            });
+        }
+        function show_box() {
+            $('#create').show();
+            $('#button-box').hide();
         }
 
+        function close_box() {
+            $('#create').hide();
+            $('#button-box').show();
+        }
 
 
     </script>
 </head>
 
 <body>
-    <div clss="title">
+    <div class="title">
         <h1>프로필 페이지</h1>
     </div>
     <div class="Input">
-        <div class="card mb-3" style="max-width: 540px;">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <!-- <img src="..." class="img-fluid rounded-start" alt="..."> -->
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <div class="form">
-                            <input class="form-control form-control-sm" type="text" placeholder="이름"
-                                aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" placeholder="나이"
-                                aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" placeholder="취미"
-                                aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" placeholder="MBTI"
-                                aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" placeholder="목표"
-                                aria-label=".form-control-sm example">
-                            <input class="form-control form-control-sm" type="text" placeholder="좋아하는 음식"
-                                aria-label=".form-control-sm example">
-                            <button type="button" class="btn btn-outline-dark">만들기</button>
+        <div class="input-box mx-auto mb-3" id="button-box" style="width: 150px;">
+            <button type="button" onclick="show_box()" class="btn btn-outline-dark mx-auto">프로필 입력하기</button>
+        </div>
+        <div class=create id="create" style="display: none">
+            <div class="card border-dark mb-3 mx-auto" style="max-width: 400px;">
+                <div class="card-header bg-transparent border-dark">프로필 입력</div>
+                <div class="card-body text-dark">
+                    <div class="form">
+                        <input class="form-control form-control-sm" type="text" id="name" placeholder="이름"
+                            aria-label=".form-control-sm example">
+                        <input class="form-control form-control-sm" type="text" id="age" placeholder="나이"
+                            aria-label=".form-control-sm example">
+                        <input class="form-control form-control-sm" type="text" id="hobby" placeholder="취미"
+                            aria-label=".form-control-sm example">
+                        <input class="form-control form-control-sm" type="text" id="mbti" placeholder="MBTI"
+                            aria-label=".form-control-sm example">
+                        <input class="form-control form-control-sm" type="text" id="goal" placeholder="목표"
+                            aria-label=".form-control-sm example">
+                        <input class="form-control form-control-sm" type="text" id="food" placeholder="좋아하는 음식"
+                            aria-label=".form-control-sm example">
+                        <div class="d-grid gap-2 d-md-flex mt-2 justify-content-md-end">
+                            <button onclick="save_profile()" type="button" class="btn btn-outline-secondary"
+                                style="width: 80px;">만들기</button>
+                            <button onclick="close_box()" type="button" class="btn btn-outline-secondary"
+                                style="width: 80px;">취소</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    </div>
+    </div>
     <div class="contents">
         <div class="profiles">
-            <div class="row row-cols-1 row-cols-md-2 g-4">
-                <div class="col">
-                    <div class="card">
-                        <!-- <img src="..." class="card-img-top" alt="..."> -->
-                        <div class="card-body">
-                            <h5 class="card-title">1. 철수의 프로필</h5>
-                            <p class="card-text">나이: </p>
-                            <p class="card-text">취미: </p>
-                            <p class="card-text">MBTI: </p>
-                            <p class="card-text">목표: </p>
-                            <p class="card-text">좋아하는 음식: </p>
-                            <button type="button" class="btn btn-outline-dark">삭제</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <!-- <img src="..." class="card-img-top" alt="..."> -->
-                        <div class="card-body">
-                            <h5 class="card-title">1. 철수의 프로필</h5>
-                            <p class="card-text">나이: </p>
-                            <p class="card-text">취미: </p>
-                            <p class="card-text">MBTI: </p>
-                            <p class="card-text">목표: </p>
-                            <p class="card-text">좋아하는 음식: </p>
-                            <button type="button" class="btn btn-outline-dark">삭제</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <!-- <img src="..." class="card-img-top" alt="..."> -->
-                        <div class="card-body">
-                            <h5 class="card-title">1. 철수의 프로필</h5>
-                            <p class="card-text">나이: </p>
-                            <p class="card-text">취미: </p>
-                            <p class="card-text">MBTI: </p>
-                            <p class="card-text">목표: </p>
-                            <p class="card-text">좋아하는 음식: </p>
-                            <button type="button" class="btn btn-outline-dark">삭제</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <!-- <img src="..." class="card-img-top" alt="..."> -->
-                        <div class="card-body">
-                            <h5 class="card-title">1. 철수의 프로필</h5>
-                            <p class="card-text">나이: </p>
-                            <p class="card-text">취미: </p>
-                            <p class="card-text">MBTI: </p>
-                            <p class="card-text">목표: </p>
-                            <p class="card-text">좋아하는 음식: </p>
-                            <button type="button" class="btn btn-outline-dark">삭제</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <!-- <img src="..." class="card-img-top" alt="..."> -->
-                        <div class="card-body">
-                            <h5 class="card-title">1. 철수의 프로필</h5>
-                            <p class="card-text">나이: </p>
-                            <p class="card-text">취미: </p>
-                            <p class="card-text">MBTI: </p>
-                            <p class="card-text">목표: </p>
-                            <p class="card-text">좋아하는 음식: </p>
-                            <button type="button" class="btn btn-outline-dark">삭제</button>
-                        </div>
-                    </div>
-                </div>
+            <div class="row row-cols-1 row-cols-md-2 g-4" id="profile-list">
+
             </div>
         </div>
     </div>
