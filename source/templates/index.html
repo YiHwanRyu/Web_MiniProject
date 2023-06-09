@@ -95,9 +95,9 @@
 
                     let temp_html = `
                             <div class="card-container">
-                                <div class="card border-success mb-3">
-                                    <div class="card-header bg-transparent border-success">No.${number}</div>
-                                        <div class="card-body text-success">
+                                <div class="card border-dark mb-3">
+                                    <div class="card-header bg-transparent border-dark">No.${number}</div>
+                                        <div class="card-body text-dark">
                                             <h5 class="card-title">${name}의 프로필</h5>
                                                 <p class="card-text">👉 나이: ${age}</p>
                                                 <p class="card-text">👉 취미: ${hobby}</p>
@@ -162,13 +162,10 @@
             <button type="button" onclick="show_box()" class="btn btn-outline-dark mx-auto">프로필 입력하기</button>
         </div>
         <div class=create id="create" style="display: none">
-            <div class="card mb-3 mx-auto" style="max-width: 400px;">
-                <div class="row g-0">
-                    <div class="col-md-8">
-                        <div class="mx-auto" style="width: 400px;">
-                            <div class="card-body">
-                                <h5 class="card-header">프로필 입력</h5>
-                                <div class="form">
+                    <div class="card border-dark mb-3 mx-auto" style="max-width: 400px;">
+                        <div class="card-header bg-transparent border-dark">프로필 입력</div>
+                            <div class="card-body text-dark">
+                                <div class="form">                                  
                                     <input class="form-control form-control-sm" type="text" id="name" placeholder="이름"
                                         aria-label=".form-control-sm example">
                                     <input class="form-control form-control-sm" type="text" id="age" placeholder="나이"
@@ -186,7 +183,6 @@
                                             style="width: 80px;">만들기</button>
                                         <button onclick="close_box()" type="button" class="btn btn-outline-secondary"
                                             style="width: 80px;">취소</button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
