@@ -20,6 +20,7 @@
         * {
             font-family: "Noto Serif KR", serif;
         }
+
         .title {
             text-align: center;
             width: 300px;
@@ -60,7 +61,6 @@
             text-align: right;
             margin-left: 10px;
         }
-
     </style>
 </head>
 <script>
@@ -81,34 +81,36 @@
             let hobby = a['hobby']
             let mbti = a['mbti']
             let goal = a['goal']
-            let food = a['food'] 
-            let temp_html = ``
-                temp_html = `<div class="form">
+            let food = a['food']
+            let temp_html = `<div class="round">
+                                <img class="profile" src="{{ url_for('static', filename='/first.jpg') }}">
+                            </div>
+                            <div class="form">
                                 <div class="form_name">
-                                    <input class="form-control" type="text" id="name" placeholder=${name} aria-label="default input example">
+                                    <input class="form-control" type="text" id="name" placeholder="이름" value=${name}>
                                 </div>
                                 <div class="form_age">
-                                    <input class="form-control" type="text" id="age" placeholder=${age} aria-label="default input example">
+                                    <input class="form-control" type="text" id="age" placeholder="나이" value=${age}>
                                 </div>
                                 <div class="form_hobby">
-                                    <input class="form-control" type="text" id="hobby" placeholder=${hobby} aria-label="default input example">
+                                    <input class="form-control" type="text" id="hobby" placeholder="취미" value=${hobby}>
                                 </div>
                                 <div class="form_mbti">
-                                    <input class="form-control" type="text" id="mbti" placeholder=${mbti} aria-label="default input example">
+                                    <input class="form-control" type="text" id="mbti" placeholder="MBTI" value=${mbti}>
                                 </div>
                                 <div class="form_goal">
-                                    <input class="form-control" type="text" id="goal" placeholder=${goal} aria-label="default input example">
+                                    <input class="form-control" type="text" id="goal" placeholder="목표" value=${goal}>
                                 </div>
                                 <div class="form_food">
-                                    <input class="form-control" type="text" id="food" placeholder=${food}
-                                        aria-label="default input example">
+                                    <input class="form-control" type="text" id="food" placeholder="좋아하는 음식" value=${food}>
                                 </div>
-                                <div class="btnmd">
-                                    <button onclick="change_profile()" type="button" class="btn btn-outline-light">수정</button>
-                                    <button onclick="go_back()" type="button" class="btn btn-outline-light">취소</button>
-                                </div>`
-                   
-        $("#before_data").append(temp_html)
+                            </div>
+                            <div class="btnmd">
+                                <button onclick="change_profile()" type="button" class="btn btn-outline-secondary">수정</button>
+                                <button onclick="go_back()" type="button" class="btn btn-outline-secondary">취소</button>
+                            </div>`
+
+            $("#before_data").append(temp_html)
         });
     }
 
@@ -133,7 +135,7 @@
 
         fetch('/profile/update', { method: "POST", body: formData }).then((res) => res.json()).then((data) => {
             alert(data["msg"]);
-            window.location.href='/'
+            window.location.href = '/'
         });
     }
 
@@ -147,9 +149,9 @@
     <div class="title">
         <h1>프로필 수정</h1>
     </div>
-    <div class="box">
+    <div class="box" id="before_data">
         <div class="round">
-            <img class="profile" src="{{ url_for('static', filename='/first.png') }}">
+            <img class="profile" src="{{ url_for('static', filename='/first.jpg') }}">
         </div>
         <div class="form">
             <div class="form_name">
