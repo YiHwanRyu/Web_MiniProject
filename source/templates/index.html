@@ -106,7 +106,7 @@
                                                 <p class="card-text">👉 좋아하는 음식: ${food}</p>
                                                 <div class="d-flex justify-content-between align-items-center">
                                                 <div>
-                                                    <button onclick="update_profile(${number})" type="button" class="btn btn-outline-primary">수정</button>
+                                                    <button onclick="window.location.href='/profile/updatehtml${number}'" type="button" class="btn btn-outline-dark">수정</button>
                                                     <button onclick="delete_profile(${number})" type="button" class="btn btn-danger">삭제</button>
                                                 </div>
                                                 <button onclick="like_profile(${number})" type="button" class="btn btn-primary">좋아요 : ${like}</button>
